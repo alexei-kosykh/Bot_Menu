@@ -19,18 +19,28 @@ async def handle_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if user.username not in ALLOWED_USERS:
         await update.message.reply_text("❌ Доступ запрещен. Ваш username не в списке разрешенных.")
         return
+    welcome_text = (
+        f"👋 Привет, {user.first_name}!\n\n"
+        "Я бот для работы с меню и покупками. Вот что я умею:\n\n"
+        "📅 *Меню на сегодня* — покажу список блюд на текущий день.\n"
+        "🗓 *Получить меню по дате* — можно ввести число (1–31), и я покажу меню на конкретный день.\n"
+        "🔍 *Найти ингредиенты* — введи название блюда, и я пришлю список ингредиентов.\n"
+        "✏️ *Внести купленное* — обновить список покупок в таблице.\n\n"
+        "👇 Выбирай действие с помощью кнопок ниже."
+    )
 
     await update.message.reply_text(
-        f"Привет, {user.first_name}! Выбери действие:",
+        welcome_text,
+        parse_mode="Markdown",
         reply_markup=main_keyboard
     )
 
 async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    await query.answer()  # обязательно! закрывает "часики" у пользователя
+    await query.answer()
 
     user_id = query.from_user.id
-    data = query.data  # вот что ты задаёшь в InlineKeyboardButton(callback_data="...")
+    data = query.data
 
     if data == "menu_today":
         await get_menu_today.run(update, context)
@@ -45,7 +55,12 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     elif data == "edit_buying":
         state.USER_STATE[user_id] = "WAITING_FOR_BUY_INPUT"
-        await edit_buying.run(update, context, "✏️ Внести купленное")
+        await query.message.reply_text(
+            "Введите номер строки и новое значение через пробел.\n"
+            "Например: 3 Новая запись",
+            parse_mode="Markdown", reply_markup=main_keyboard
+        )
+        return
 
     else:
         await query.message.reply_text("❌ Неизвестная команда.")

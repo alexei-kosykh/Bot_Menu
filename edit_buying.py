@@ -29,14 +29,14 @@ async def run(update, context, text):
         # Обновляем ячейку в таблице
         sheet.update_cell(row_num, ord(COLUMN.lower()) - 96, new_value)
 
-        await msg.reply_text("✅ Данные успешно обновлены!", reply_markup=main_keyboard)
+        await msg.reply_text("✅ Данные успешно обновлены!", reply_markup=inline_keyboard(INLINE_BUTTONS))
         if user_id in state.USER_STATE:
             state.USER_STATE.pop(user_id)
 
     except ValueError:
         await msg.reply_text(
-            "❌ Неверный формат. Введите номер строки и значение через пробел.",
-        reply_markup=main_keyboard
+            "❌ Неверный формат. Выберите из списка:",
+        reply_markup=inline_keyboard(INLINE_BUTTONS)
     )
         if user_id in state.USER_STATE:
             state.USER_STATE.pop(user_id)
