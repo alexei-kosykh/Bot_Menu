@@ -1,6 +1,7 @@
 SPREADSHEET_ID = "1wM3T35GQEuNaLbamOdcKvkiyIJjyFwzxnU_Mf8MwxNg"  # Замените на ID вашей Google таблицы
 SHEET_NAME_IDEAS = "Идеи/план"  # Название листа в таблице
 SHEET_NAME_MENU_TODAY = "Меню_Сегодня_Полное"  # Название листа в таблице
+SHEET_NAME_MENU_MOUNTH = "Расписание_Месяц_Полное"  # Название листа в таблице
 SHEET_NAME_BASE_RECEPTS = "База_рецептов"  # Название листа в таблице
 COLUMN = "B"  # Столбец для редактирования (можно изменить)
 
@@ -31,3 +32,4 @@ def setup_google_sheets(SHEET_NAME):
 # Инициализация объекта sheet при импорте модуля
 sheetMenuToday = setup_google_sheets(SHEET_NAME_MENU_TODAY)
 sheetMenuBaseRecepts = setup_google_sheets(SHEET_NAME_BASE_RECEPTS)
+sheetMenuMounth = setup_google_sheets(SHEET_NAME_MENU_MOUNTH)

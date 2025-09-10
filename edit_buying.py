@@ -1,4 +1,5 @@
 from get_access_table import COLUMN, sheetMenuToday as sheet
+from keyboards import main_keyboard
 import state
 
 async def run(update, context, text):
@@ -21,13 +22,15 @@ async def run(update, context, text):
         # Обновляем ячейку в таблице
         sheet.update_cell(row_num, ord(COLUMN.lower()) - 96, new_value)
 
-        await update.message.reply_text("✅ Данные успешно обновлены!")
+        await update.message.reply_text("✅ Данные успешно обновлены!", reply_markup=main_keyboard)
         if user_id in state.USER_STATE:
             state.USER_STATE.pop(user_id)
 
     except ValueError:
         await update.message.reply_text(
-            "❌ Неверный формат. Введите номер строки и значение через пробел."
+            "❌ Неверный формат. Введите номер строки и значение через пробел.", reply_markup=main_keyboard
         )
+        if user_id in state.USER_STATE:
+            state.USER_STATE.pop(user_id)
     except Exception as e:
-        await update.message.reply_text(f"❌ Ошибка при обновлении данных: {e}")
+        await update.message.reply_text(f"❌ Ошибка при обновлении данных: {e}", reply_markup=main_keyboard)

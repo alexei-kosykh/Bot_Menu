@@ -1,6 +1,7 @@
 from get_access_table import sheetMenuBaseRecepts as sheet
 from telegram import Update
 from telegram.ext import ContextTypes
+from keyboards import main_keyboard
 import state
 
 async def run(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str):
@@ -15,7 +16,7 @@ async def run(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str):
             try:
                 start_row = dishes_col.index(text) + 1  # Google Sheets 1-indexed
             except ValueError:
-                await update.message.reply_text(f"❌ Блюдо '{text}' не найдено")
+                await update.message.reply_text(f"❌ Блюдо '{text}' не найдено", reply_markup=main_keyboard)
                 return
 
 
@@ -52,10 +53,8 @@ async def run(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str):
             for i in range(length):
                 response += f"{col_f[i]} | {col_g[i]} | {col_h[i]}\n"
 
-            await update.message.reply_text(response, parse_mode="Markdown")
-            if user_id in state.USER_STATE:
-              state.USER_STATE.pop(user_id)
+            await update.message.reply_text(response, parse_mode="Markdown", reply_markup=main_keyboard)
             return
 
     except Exception as e:
-            await update.message.reply_text(f"❌ Ошибка при получении ингредиентов: {e}")
+            await update.message.reply_text(f"❌ Ошибка при получении ингредиентов: {e}", reply_markup=main_keyboard)

@@ -1,6 +1,7 @@
 from get_access_table import sheetMenuToday as sheet
 from telegram import Update
 from telegram.ext import ContextTypes
+from keyboards import inline_keyboard
 
 async def run(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
@@ -26,7 +27,7 @@ async def run(update: Update, context: ContextTypes.DEFAULT_TYPE):
         for i in range(6):
             response += f"*{col_a[i]}* | {col_b[i]} \n_{col_d[i]}_\n\n"
 
-        await update.message.reply_text(response, parse_mode="Markdown")
+        await update.message.reply_text(response, parse_mode="Markdown", reply_markup=inline_keyboard)
 
     except Exception as e:
         await update.message.reply_text(f"❌ Ошибка при чтении данных: {e}")
