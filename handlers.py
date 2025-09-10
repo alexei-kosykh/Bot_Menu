@@ -1,7 +1,29 @@
+import gspread
+
 from telegram import Update
 from telegram.ext import ContextTypes
+
 import state
-import get_menu_today, get_menu_date, edit_buying, get_ingredients_dish
+from my_private_keys import USERS
+from keyboards import main_keyboard
+import edit_buying, get_ingredients_dish, get_menu_date, get_menu_today, find_recept, get_access_table
+
+# List of users that can work with app
+ALLOWED_USERS = USERS
+
+# Comand /start
+async def handle_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
+
+    # Checking user allow
+    if user.username not in ALLOWED_USERS:
+        await update.message.reply_text("❌ Доступ запрещен. Ваш username не в списке разрешенных.")
+        return
+
+    await update.message.reply_text(
+        f"Привет, {user.first_name}! Выбери действие:",
+        reply_markup=main_keyboard
+    )
 
 async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -21,7 +43,7 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         state.USER_STATE[user_id] = "WAITING_FOR_DISH"
         await query.message.reply_text("Введите название блюда:")
 
-    elif data == "edit_buy":
+    elif data == "edit_buying":
         state.USER_STATE[user_id] = "WAITING_FOR_BUY_INPUT"
         await edit_buying.run(update, context, "✏️ Внести купленное")
 

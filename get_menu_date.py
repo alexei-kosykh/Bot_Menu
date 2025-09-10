@@ -3,6 +3,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 from keyboards import main_keyboard, inline_keyboard, menu_by_date_keyboard
 from my_private_keys import INLINE_BUTTONS
+from utils.get_message import get_message
 
 async def run(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str):
     try:
@@ -39,10 +40,15 @@ async def run(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str):
                 response += f"*{b}* | {c}\n_{e}_\n\n"
                 found = True
 
+        msg = get_message(update)
         if not found:
-            response = f"❌ Для {day} числа меню не найдено."
+          response = f"❌ Для {day} числа меню не найдено."
 
-        await update.message.reply_text(response, parse_mode="Markdown", reply_markup=main_keyboard)
+        await msg.reply_text(
+        response,
+        parse_mode="Markdown",
+        reply_markup=inline_keyboard(INLINE_BUTTONS)
+        )
 
     except Exception as e:
-        await update.message.reply_text(f"❌ Ошибка при получении меню: {e}")
+      await msg.reply_text(f"❌ Ошибка при получении меню: {e}", reply_markup=main_keyboard)
