@@ -1,8 +1,8 @@
 from get_access_table import sheetMenuMounth as sheet
 from telegram import Update
 from telegram.ext import ContextTypes
-from keyboards import main_keyboard, inline_keyboard, menu_by_date_keyboard
-from my_private_keys import INLINE_BUTTONS
+from keyboards import main_keyboard, inline_keyboard
+from my_private_keys import INLINE_GET_MENU
 from utils.get_message import get_message
 
 async def run(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str):
@@ -19,7 +19,7 @@ async def run(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str):
         if day < 1 or day > 31:
             await update.message.reply_text(
                 f"❌ День должен быть от 1 до 31. Выберите действие:",
-                reply_markup=inline_keyboard(INLINE_BUTTONS)
+                reply_markup=inline_keyboard(INLINE_GET_MENU)
             )
             return
 
@@ -47,7 +47,7 @@ async def run(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str):
         await msg.reply_text(
         response,
         parse_mode="Markdown",
-        reply_markup=inline_keyboard(INLINE_BUTTONS)
+        reply_markup=inline_keyboard(INLINE_GET_MENU)
         )
 
     except Exception as e:

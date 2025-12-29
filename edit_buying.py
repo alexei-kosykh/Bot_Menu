@@ -2,7 +2,7 @@ from get_access_table import COLUMN, sheetMenuToday as sheet
 from keyboards import main_keyboard, inline_keyboard
 import state
 from utils.get_message import get_message
-from my_private_keys import INLINE_BUTTONS
+from my_private_keys import INLINE_EDIT_MENU
 
 async def run(update, context, text):
     user_id = update.effective_user.id
@@ -29,14 +29,14 @@ async def run(update, context, text):
         # Обновляем ячейку в таблице
         sheet.update_cell(row_num, ord(COLUMN.lower()) - 96, new_value)
 
-        await msg.reply_text("✅ Данные успешно обновлены!", reply_markup=inline_keyboard(INLINE_BUTTONS))
+        await msg.reply_text("✅ Данные успешно обновлены!", reply_markup=inline_keyboard(INLINE_EDIT_MENU))
         if user_id in state.USER_STATE:
             state.USER_STATE.pop(user_id)
 
     except ValueError:
         await msg.reply_text(
             "❌ Неверный формат. Выберите из списка:",
-        reply_markup=inline_keyboard(INLINE_BUTTONS)
+        reply_markup=inline_keyboard(INLINE_EDIT_MENU)
     )
         if user_id in state.USER_STATE:
             state.USER_STATE.pop(user_id)

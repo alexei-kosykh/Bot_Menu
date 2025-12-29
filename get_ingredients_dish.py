@@ -2,7 +2,7 @@ from get_access_table import sheetMenuBaseRecepts as sheet
 from telegram import Update
 from telegram.ext import ContextTypes
 from keyboards import main_keyboard, inline_keyboard
-from my_private_keys import INLINE_BUTTONS
+from my_private_keys import INLINE_GET_MENU
 
 async def run(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str):
     text = text.strip()
@@ -21,7 +21,7 @@ async def run(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str):
         try:
             start_row = dishes_col.index(text) + 1  # Google Sheets 1-indexed
         except ValueError:
-            await msg.reply_text(f"❌ Блюдо '{text}' не найдено", reply_markup=inline_keyboard(INLINE_BUTTONS))
+            await msg.reply_text(f"❌ Блюдо '{text}' не найдено", reply_markup=inline_keyboard(INLINE_GET_MENU))
             return
 
         # Находим строку следующего блюда
@@ -57,7 +57,7 @@ async def run(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str):
         for i in range(length):
             response += f"{col_f[i]} | {col_g[i]} | {col_h[i]}\n"
 
-        await msg.reply_text(response, parse_mode="Markdown", reply_markup=inline_keyboard(INLINE_BUTTONS))
+        await msg.reply_text(response, parse_mode="Markdown", reply_markup=inline_keyboard(INLINE_GET_MENU))
 
     except Exception as e:
         await msg.reply_text(f"❌ Ошибка при получении ингредиентов: {e}", reply_markup=main_keyboard)

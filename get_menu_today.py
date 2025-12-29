@@ -4,7 +4,7 @@ from telegram.ext import ContextTypes
 from get_access_table import sheetMenuToday as sheet
 from utils.get_message import get_message
 from keyboards import inline_keyboard
-from my_private_keys import (INLINE_BUTTONS)
+from my_private_keys import INLINE_GET_MENU
 
 async def run(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
@@ -33,7 +33,7 @@ async def run(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         msg = get_message(update)
         if msg:
-            await msg.reply_text(response, parse_mode="Markdown", reply_markup=inline_keyboard(INLINE_BUTTONS))
+            await msg.reply_text(response, parse_mode="Markdown", reply_markup=inline_keyboard(INLINE_GET_MENU))
     except Exception as e:
         msg = get_message(update)
         if msg:
