@@ -1,1 +1,7 @@
+# Состояния пользователя для управления диалогом
 USER_STATE = {}
+
+# Состояния бота для различных операций
+WAITING_FOR_RECEIPT = "WAITING_FOR_RECEIPT"
+WAITING_FOR_BUDGET_AMOUNT = "WAITING_FOR_BUDGET_AMOUNT"
+WAITING_FOR_MANUAL_EXPENSE = "WAITING_FOR_MANUAL_EXPENSE"

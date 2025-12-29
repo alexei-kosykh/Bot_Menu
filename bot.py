@@ -2,6 +2,7 @@ from my_private_keys import TOKEN
 
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQueryHandler, filters
 from handlers import handle_message, handle_callback, handle_start
+from receipt_handler import handle_receipt_photo
 
 # Main function
 def main():
@@ -11,6 +12,7 @@ def main():
     # Add handler
     application.add_handler(CommandHandler("start", handle_start))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+    application.add_handler(MessageHandler(filters.PHOTO, handle_receipt_photo))
     application.add_handler(CallbackQueryHandler(handle_callback))
 
     # Run bot

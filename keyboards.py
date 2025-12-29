@@ -1,6 +1,6 @@
 from telegram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 from my_private_keys import MAIN_MENU, INLINE_GET_MENU, INLINE_EDIT_MENU
-from my_private_keys import TABLE_URL
+from my_private_keys import INLINE_RECEIPT_MENU, INLINE_BUDGET_MENU, TABLE_URL
 
 
 main_keyboard = ReplyKeyboardMarkup(
